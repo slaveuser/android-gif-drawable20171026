@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    defaultConfig {
+        versionName project.version
+        minSdkVersion 14
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        applicationId 'pl.droidsonroids.gif.sample'
+    }
+
+    signingConfigs {
+        release {
+            storeFile new File("$System.env.HOME/.android/debug.keystore")
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            jniDebuggable true
+        }
+    }
+    lintOptions {
+        disable 'AppCompatCustomView'
+    }
+}
+
+dependencies {
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    compile "com.android.support:design:$versions.androidSupport"
+    compile "com.android.support:appcompat-v7:$versions.androidSupport"
+	compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile project(':android-gif-drawable')
+	//compile 'pl.droidsonroids.gif:android-gif-drawable:+'
+}

@@ -1,0 +1,43 @@
+buildscript {
+	ext.kotlin_version = '1.1.4-3'
+	repositories {
+		jcenter()
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:2.3.3'
+		classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
+}
+
+plugins {
+	id "com.gradle.build-scan" version "1.8"
+}
+
+buildScan {
+	licenseAgreementUrl = 'https://gradle.com/terms-of-service'
+	licenseAgree = 'yes'
+}
+
+ext {
+	versions = [
+			compileSdk        : 26,
+			targetSdk         : 26,
+			minSdk            : 9,
+			buildTools        : '26.0.1',
+			androidSupport    : '26.0.2',
+			androidSupportTest: '1.0.1'
+	]
+}
+
+subprojects {
+	tasks.withType(JavaCompile) {
+		options.compilerArgs << '-Xlint'
+	}
+	repositories {
+		jcenter()
+		mavenCentral()
+		google()
+	}
+}
